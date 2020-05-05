@@ -39,6 +39,14 @@ RealVariable solver:: operator-( const RealVariable& r, const RealVariable& rr)
 RealVariable  solver::operator*(const RealVariable& r,const RealVariable& rr){
    if((r.a!=0&&rr.a!=0)||(r.a!=0&&rr.b!=0)||(r.b!=0&&rr.a!=0))
    throw runtime_error ("not allowed more than the power of 2");
+   RealVariable x;
+   if((r.a==0&&r.b==0&&r.c==0)||(rr.a==0&&rr.b==0&&rr.c==0))
+   {
+    x.a=0;
+    x.b=0;
+    x.c=0;
+   }
+  
    
     double a,b,c;
     
@@ -51,7 +59,7 @@ RealVariable  solver::operator*(const RealVariable& r,const RealVariable& rr){
   else
   a=a+r.b;
   
-  RealVariable x;
+  
   x.a=a;
   x.b=b;
   x.c=c;
@@ -116,6 +124,9 @@ RealVariable solver::operator^(const RealVariable& r,const int d)
 
  double solver::solve (const RealVariable& r)
  { double x;
+ 
+ if(r.a==0&&r.b==0&&r.c!=0)
+ throw runtime_error ("no solution");
      if(r.a!=0)
      {
       x=(-(r.b)+sqrt(pow(r.b,2)-(4*r.a*r.c)))/2*r.a;
@@ -154,6 +165,8 @@ ComplexVariable solver::operator -(const ComplexVariable& r, const ComplexVariab
  { double z=0;
  if((r.a!=z&&rr.a!=z)||(r.a!=z&&rr.b!=z)||(r.b!=z&&rr.a!=z))
    throw runtime_error ("not allowed more than the power of 2");
+   
+   
     ComplexVariable x;
      complex<double> a,b,c;
     
@@ -195,6 +208,7 @@ ComplexVariable solver::operator -(const ComplexVariable& r, const ComplexVariab
      x.a=0;
      x.b=0;
      x.c=1;
+     return x;
      }
      if(d==2&&r.a!=z)
      {
@@ -247,7 +261,7 @@ ComplexVariable solver::operator -(const ComplexVariable& r, const ComplexVariab
      if(r.a.real()==0)
      x+=r.c/-(r.b);
     
-    if(r.b.real()==0&&r.a.real()==0&&r.c.real()!=0&&r.a.imag()==0&&r.b.imag()==0&&r.c.imag()!=0)
+    if(r.b.real()==0&&r.a.real()==0&&r.a.imag()==0&&r.b.imag()==0&&(r.c.real()!=0||r.c.imag()!=0))
 throw runtime_error ("no solution");
  
 
