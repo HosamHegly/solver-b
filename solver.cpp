@@ -51,7 +51,7 @@ RealVariable  solver::operator*(const RealVariable& r,const RealVariable& rr){
     double a,b,c;
     
    
-   a=r.b*rr.b;
+  /* a=r.b*rr.b;
   b=r.b*rr.c+r.c*rr.b;
   c=r.c*rr.c;
   if(r.a!=0)
@@ -62,8 +62,10 @@ RealVariable  solver::operator*(const RealVariable& r,const RealVariable& rr){
   
   x.a=a;
   x.b=b;
-  x.c=c;
-  
+  x.c=c;*/
+   x.a=r.b*rr.b+r.a*rr.c+r.c*rr.a;
+   x.b=r.b*rr.c+r.c*rr.b;
+   x.c=r.c*rr.c;
    return x;
     
     
@@ -129,7 +131,7 @@ RealVariable solver::operator^(const RealVariable& r,const int d)
  throw runtime_error ("no solution");
      if(r.a!=0)
      {
-      x=(-(r.b)+sqrt(pow(r.b,2)-(4*r.a*r.c)))/2*r.a;
+      x=(-(r.b)+sqrt(pow(r.b,2)-(4*r.a*r.c)))/(2*r.a);
      }
      else
      x=r.c/-(r.b);
@@ -171,18 +173,9 @@ ComplexVariable solver::operator -(const ComplexVariable& r, const ComplexVariab
      complex<double> a,b,c;
     
    
-   a=r.b*rr.b;
-  b=r.b*rr.c+r.c*rr.b;
-  c=r.c*rr.c;
-  if(r.a!=z)
-  a=a+r.a;
-  else
-  a=a+r.b;
-  
-  x.a=a;
-  x.b=b;
-  x.c=c;
-  
+    x.a=r.b*rr.b+r.a*rr.c+r.c*rr.a;
+   x.b=r.b*rr.c+r.c*rr.b;
+   x.c=r.c*rr.c;
    return x;
    
   
@@ -244,17 +237,17 @@ ComplexVariable solver::operator -(const ComplexVariable& r, const ComplexVariab
      
      if(r.a.real()!=0)
      {if(discrement1>=0)
-       x+=(-(r.b.real())+sqrt(discrement1))/2*r.a.real();
+       x+=(-(r.b.real())+sqrt(discrement1))/(2*r.a.real());
       else
-      x+=((-(r.b.real())+sqrt(-discrement1))/2*r.a.real())*1i;
+      x+=((-(r.b.real())+sqrt(-discrement1))/(2*r.a.real())*1i);
      }
      
      
      if(r.a.imag()!=0)
      {if(discrement2>=0)
-      x+=((-(r.b.imag())+sqrt(discrement1))/2*r.a.imag())*1i;
+      x+=((-(r.b.imag())+sqrt(discrement1))/(2*r.a.imag())*1i);
       else
-      x+=(-(r.b.imag())+sqrt(-discrement1))/2*r.a.imag();
+      x+=(-(r.b.imag())+sqrt(-discrement1))/(2*r.a.imag());
      }
      
      else
